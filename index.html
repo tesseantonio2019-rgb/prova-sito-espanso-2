@@ -16,7 +16,180 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-body{background-color:#0B0D10;color:#FFFFFF;font-family:'Inter',sans-serif;overflow-x:hidden}.carbon-pattern{background-color:#0B0D10;background-image:linear-gradient(45deg,#111419 25%,transparent 25%),linear-gradient(-45deg,#111419 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#111419 75%),linear-gradient(-45deg,transparent 75%,#111419 75%);background-size:16px 16px;background-position:0 0,0 8px,8px -8px,-8px 0}.telemetry-grid{background-size:40px 40px;background-image:linear-gradient(to right,rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,.03) 1px,transparent 1px)}.racing-card{position:relative;background:#14181F;border:1px solid rgba(255,255,255,.08);transition:all .35s cubic-bezier(.16,1,.3,1)}.racing-card:hover{border-color:rgba(225,6,0,.5);transform:translateY(-4px);box-shadow:0 12px 30px -10px rgba(225,6,0,.25)}@keyframes flowStream{0%{stroke-dashoffset:1000}100%{stroke-dashoffset:0}}.aero-line{stroke-dasharray:120 80;animation:flowStream 3.5s linear infinite}.aero-line-fast{stroke-dasharray:160 60;animation:flowStream 1.8s linear infinite}.aero-line-turbo{stroke-dasharray:220 40;animation:flowStream .9s linear infinite}.red-glow{box-shadow:0 0 25px rgba(225,6,0,.45)}.cyan-glow{box-shadow:0 0 20px rgba(0,240,255,.35)}::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:#0B0D10}::-webkit-scrollbar-thumb{background:#E10600;border-radius:4px}.reveal{opacity:0;transform:translateY(24px);transition:all .7s cubic-bezier(.16,1,.3,1)}.reveal.active{opacity:1;transform:translateY(0)}
+/* Theme variables – dark (default) */
+:root {
+  --bg-main: #0B0D10;
+  --bg-card: #14181F;
+  --bg-card-hover: #1a1f28;
+  --bg-elevated: #1E242E;
+  --text-main: #FFFFFF;
+  --text-muted: #94A3B8;
+  --text-soft: #cbd5e1;
+  --border-subtle: rgba(255,255,255,0.08);
+  --border-medium: rgba(255,255,255,0.15);
+  --nav-bg: rgba(11,13,16,0.9);
+  --pattern-dot: #111419;
+  --grid-line: rgba(255,255,255,0.03);
+  --scrollbar-track: #0B0D10;
+  --logo-fill: #0B0D10;
+  --overlay-dark: rgba(0,0,0,0.7);
+  --transition-theme: background-color 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                      color 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                      border-color 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                      box-shadow 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                      fill 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                      stroke 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+html.light {
+  --bg-main: #F1F5F9;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #F8FAFC;
+  --bg-elevated: #E2E8F0;
+  --text-main: #0F172A;
+  --text-muted: #64748B;
+  --text-soft: #334155;
+  --border-subtle: rgba(15,23,42,0.08);
+  --border-medium: rgba(15,23,42,0.15);
+  --nav-bg: rgba(255,255,255,0.92);
+  --pattern-dot: #E2E8F0;
+  --grid-line: rgba(15,23,42,0.06);
+  --scrollbar-track: #E2E8F0;
+  --logo-fill: #334155;
+  --overlay-dark: rgba(51,65,85,0.75);
+}
+html {
+  transition: var(--transition-theme);
+}
+body{
+  background-color:var(--bg-main);
+  color:var(--text-main);
+  font-family:'Inter',sans-serif;
+  overflow-x:hidden;
+  transition: var(--transition-theme);
+}
+.carbon-pattern{
+  background-color:var(--bg-main);
+  position: relative;
+  isolation: isolate;
+  transition: background-color 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.carbon-pattern::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url("circuit-singapore-night.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.22;
+  transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1), filter 0.45s;
+}
+html.light .carbon-pattern::before{
+  opacity: 0.10;
+  filter: brightness(1.35) saturate(0.85) contrast(0.95);
+}
+/* Varianti per sezioni diverse */
+.carbon-pattern.circuit-monaco::before{
+  background-image: url("circuit-monaco-night.jpg");
+}
+.carbon-pattern.circuit-abudhabi::before{
+  background-image: url("circuit-abudhabi-night.jpg");
+}
+.carbon-pattern.circuit-monza::before{
+  background-image: url("circuit-monza-twilight.jpg");
+}
+.telemetry-grid{background-size:40px 40px;background-image:linear-gradient(to right,var(--grid-line) 1px,transparent 1px),linear-gradient(to bottom,var(--grid-line) 1px,transparent 1px)}
+.racing-card{
+  position:relative;
+  background:var(--bg-card);
+  border:1px solid var(--border-subtle);
+  transition: all .35s cubic-bezier(.16,1,.3,1),
+              background-color 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.racing-card:hover{border-color:rgba(225,6,0,.5);transform:translateY(-4px);box-shadow:0 12px 30px -10px rgba(225,6,0,.25)}
+@keyframes flowStream{0%{stroke-dashoffset:1000}100%{stroke-dashoffset:0}}
+.aero-line{stroke-dasharray:120 80;animation:flowStream 3.5s linear infinite}
+.aero-line-fast{stroke-dasharray:160 60;animation:flowStream 1.8s linear infinite}
+.aero-line-turbo{stroke-dasharray:220 40;animation:flowStream .9s linear infinite}
+.red-glow{box-shadow:0 0 25px rgba(225,6,0,.45)}
+.cyan-glow{box-shadow:0 0 20px rgba(0,240,255,.35)}
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:var(--scrollbar-track)}
+::-webkit-scrollbar-thumb{background:#E10600;border-radius:4px}
+.reveal{opacity:0;transform:translateY(24px);transition:all .7s cubic-bezier(.16,1,.3,1)}
+.reveal.active{opacity:1;transform:translateY(0)}
+/* Smooth theme transition for common UI pieces */
+#navbar, #mobile-menu, .bg-carbon, .bg-carbonLight, .bg-asphalt,
+[class*="bg-carbon"], [class*="bg-asphalt"],
+.racing-card, header, section, footer, button, a, .filter-btn, .wind-btn,
+.team-card, .news-card {
+  transition: var(--transition-theme);
+}
+/* Theme toggle icon animation */
+#theme-toggle i {
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+#theme-toggle:active {
+  transform: scale(0.92);
+}
+html.theme-animating * {
+  transition: background-color 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              color 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              fill 0.45s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Light theme overrides for Tailwind utility classes */
+html.light .bg-asphalt,
+html.light .bg-asphalt\/90,
+html.light .bg-asphalt\/60,
+html.light .bg-asphalt\/80 { background-color: var(--nav-bg) !important; }
+html.light #navbar { background-color: var(--nav-bg) !important; border-color: var(--border-medium) !important; }
+html.light .bg-carbon,
+html.light .bg-carbon\/95,
+html.light .bg-carbon\/90,
+html.light .bg-carbon\/85,
+html.light .bg-carbon\/50 { background-color: var(--bg-card) !important; }
+html.light .bg-carbonLight { background-color: var(--bg-elevated) !important; }
+/* Riquadri e box che restavano neri → grigio chiaro */
+html.light .bg-black,
+html.light .bg-black\/70,
+html.light .bg-black\/60,
+html.light .bg-black\/80 { background-color: rgba(51, 65, 85, 0.75) !important; }
+html.light .from-asphalt { --tw-gradient-from: #E2E8F0 var(--tw-gradient-from-position) !important; --tw-gradient-to: rgba(226,232,240,0) var(--tw-gradient-to-position) !important; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important; }
+html.light .from-carbon { --tw-gradient-from: #FFFFFF var(--tw-gradient-from-position) !important; --tw-gradient-to: rgba(255,255,255,0) var(--tw-gradient-to-position) !important; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important; }
+html.light .via-asphalt { --tw-gradient-to: rgba(226,232,240,0) var(--tw-gradient-to-position) !important; --tw-gradient-stops: var(--tw-gradient-from), #E2E8F0, var(--tw-gradient-to) !important; }
+html.light .via-carbon { --tw-gradient-to: rgba(255,255,255,0) var(--tw-gradient-to-position) !important; --tw-gradient-stops: var(--tw-gradient-from), #F8FAFC, var(--tw-gradient-to) !important; }
+html.light .to-asphalt { --tw-gradient-to: #F1F5F9 var(--tw-gradient-to-position) !important; }
+html.light .to-carbon { --tw-gradient-to: #FFFFFF var(--tw-gradient-to-position) !important; }
+html.light .text-white { color: var(--text-main) !important; }
+html.light .text-gray-200,
+html.light .text-gray-300 { color: var(--text-soft) !important; }
+html.light .text-metallic { color: var(--text-muted) !important; }
+html.light .border-white\/10,
+html.light .border-white\/15,
+html.light .border-white\/20 { border-color: var(--border-medium) !important; }
+html.light .bg-white\/5 { background-color: rgba(15,23,42,0.04) !important; }
+html.light .hover\:bg-white\/5:hover,
+html.light .hover\:bg-white\/10:hover { background-color: rgba(15,23,42,0.06) !important; }
+html.light .hover\:bg-carbonLight:hover { background-color: #CBD5E1 !important; }
+html.light .shadow-inner { box-shadow: inset 0 2px 4px 0 rgba(15,23,42,0.06); }
+html.light #mobile-menu { background-color: var(--bg-card) !important; border-color: var(--border-medium) !important; }
+html.light .text-asphalt { color: #0F172A !important; }
+/* Logo / SVG fills: nero → grigio scuro leggibile sul chiaro */
+html.light [fill="#0B0D10"] { fill: #334155 !important; }
+html.light [fill="#14181F"] { fill: #475569 !important; }
+/* Keep racing accents vibrant */
+html.light .text-racingRed { color: #E10600 !important; }
+html.light .text-champagneGold { color: #D97706 !important; }
+html.light .text-aeroCyan { color: #0891B2 !important; }
+html.light .red-glow { box-shadow: 0 0 20px rgba(225,6,0,.3); }
+html.light .cyan-glow { box-shadow: 0 0 16px rgba(8,145,178,.25); }
     </style>
 </head>
 <body class="antialiased selection:bg-racingRed selection:text-white">
@@ -105,6 +278,12 @@ body{background-color:#0B0D10;color:#FFFFFF;font-family:'Inter',sans-serif;overf
                             <span>🇬🇧</span> <span class="hidden sm:inline">ENG</span>
                         </button>
                     </div>
+
+                    <!-- Theme Toggle (Dark / Light) -->
+                    <button id="theme-toggle" aria-label="Cambia tema" title="Cambia tema chiaro/scuro" class="p-2.5 rounded-lg bg-carbon border border-white/15 text-white hover:border-racingRed transition-all flex items-center justify-center">
+                        <i id="theme-icon-moon" class="fa-solid fa-moon text-sm"></i>
+                        <i id="theme-icon-sun" class="fa-solid fa-sun text-sm hidden text-champagneGold"></i>
+                    </button>
 
                     <a href="#contatti" class="nav-cta hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-racingRed hover:bg-racingRedDark text-white font-rajdhani font-bold uppercase tracking-wider text-xs transition-all red-glow">
                         <span class="cta-text">Diventa Sponsor</span>
@@ -890,8 +1069,8 @@ body{background-color:#0B0D10;color:#FFFFFF;font-family:'Inter',sans-serif;overf
     </section>
 
     <!-- ==================== LA VETTURA & INGEGNERIA ==================== -->
-    <section id="vettura" class="py-20 lg:py-28 carbon-pattern relative border-t border-white/10">
-        <div id="ingegneria" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="vettura" class="py-20 lg:py-28 carbon-pattern circuit-monza relative border-t border-white/10">
+        <div id="ingegneria" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             
             <div class="text-center max-w-3xl mx-auto mb-14 reveal">
                 <div class="inline-flex items-center gap-2 text-aeroCyan font-rajdhani font-bold uppercase tracking-[0.2em] text-sm mb-2">
@@ -1219,8 +1398,8 @@ body{background-color:#0B0D10;color:#FFFFFF;font-family:'Inter',sans-serif;overf
     </section>
 
     <!-- ==================== PARTNERSHIP & SPONSOR ==================== -->
-    <section id="sponsor" class="py-20 lg:py-28 carbon-pattern relative border-t border-white/10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="sponsor" class="py-20 lg:py-28 carbon-pattern circuit-monaco relative border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             
             <div class="text-center max-w-3xl mx-auto mb-14 reveal">
                 <div class="inline-flex items-center gap-2 text-racingRed font-rajdhani font-bold uppercase tracking-[0.2em] text-sm mb-2">
@@ -2780,6 +2959,39 @@ body{background-color:#0B0D10;color:#FFFFFF;font-family:'Inter',sans-serif;overf
 
             reveals.forEach(el => observer.observe(el));
         }
+
+        // Theme toggle (dark / light) with smooth animation + localStorage
+        (function() {
+            const html = document.documentElement;
+            const stored = localStorage.getItem('onmec-theme');
+            if (stored === 'light') {
+                html.classList.add('light');
+            }
+            function updateThemeIcons() {
+                const isLight = html.classList.contains('light');
+                const moon = document.getElementById('theme-icon-moon');
+                const sun = document.getElementById('theme-icon-sun');
+                if (moon && sun) {
+                    moon.classList.toggle('hidden', isLight);
+                    sun.classList.toggle('hidden', !isLight);
+                }
+            }
+            updateThemeIcons();
+            const btn = document.getElementById('theme-toggle');
+            if (btn) {
+                btn.addEventListener('click', function() {
+                    html.classList.add('theme-animating');
+                    html.classList.toggle('light');
+                    const isLight = html.classList.contains('light');
+                    localStorage.setItem('onmec-theme', isLight ? 'light' : 'dark');
+                    updateThemeIcons();
+                    // remove animating class after transition ends
+                    setTimeout(function() {
+                        html.classList.remove('theme-animating');
+                    }, 480);
+                });
+            }
+        })();
     </script>
 </body>
 </html>
